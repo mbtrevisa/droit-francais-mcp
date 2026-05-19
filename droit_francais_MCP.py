@@ -12,6 +12,7 @@ Remarques :
 """
 
 import logging
+import os
 import sys
 from typing import Any, Dict, List, Optional, Union
 from fastmcp import FastMCP
@@ -42,14 +43,16 @@ except Exception as e:
 
 # Initialisation de l'API LegiFrance
 try:
-    legifranceapi = LegifranceAPI(sandbox=False)
+    use_sandbox = os.getenv("PISTE_USE_SANDBOX", "false").lower() in ("true", "1", "yes")
+    legifranceapi = LegifranceAPI(sandbox=use_sandbox)
 except Exception as e:
     logger.error(f"Erreur lors de l'initialisation de l'API LegiFrance: {e}")
     legifranceapi = None
 
 # Initialisation de l'API Judilibre
 try:
-    judilibreapi = JudilibreAPI(sandbox=False)
+    use_sandbox_judi = os.getenv("PISTE_USE_SANDBOX", "false").lower() in ("true", "1", "yes")
+    judilibreapi = JudilibreAPI(sandbox=use_sandbox_judi)
 except Exception as e:
     logger.error(f"Erreur lors de l'initialisation de l'API Judilibre: {e}")
     judilibreapi = None
