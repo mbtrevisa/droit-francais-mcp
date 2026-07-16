@@ -15,10 +15,17 @@ import logging
 import os
 import sys
 from typing import Any, Dict, List, Optional, Union
+from dotenv import load_dotenv
 from fastmcp import FastMCP
 
 from api_judilibre import JudilibreAPI
 from api_legifrance import LegifranceAPI
+
+# Charger le .env AVANT toute lecture de PISTE_USE_SANDBOX : sans cela, le drapeau
+# était lu vide pour LegifranceAPI (→ production, identifiants sandbox rejetés en
+# invalid_client) puis chargé par son __init__, si bien que JudilibreAPI le voyait
+# à true (→ sandbox, fonctionnel). Correction du 2026-07-16.
+load_dotenv(verbose=False)
 
 # ============================================================================
 # CONFIGURATION ET INITIALISATION
